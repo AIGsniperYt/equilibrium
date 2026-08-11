@@ -12,20 +12,14 @@
     "version": "V6",
     "date": "2026-08-07",
     "changelog": [
-      "added: soul system — kills drop collectible soul, spent on repair; bleed makes wounds linger, and an equilibrium threshold decides if wounds self-heal or drain you",
-      "changed: soul economy rebalanced — capacity raised 800 to 2,000, repair is urgent but pricey, damage sparks are collectible income, and leaks drain your real meter",
-      "changed: getting hit now costs soul — sparks fly out carrying real soul value, and death empties your entire soul vessel",
-      "added: focus healing — stand still and hold R to ramp heal speed from 8 to 16 HP/s, suppress soul leak, and heal past 91% HP",
-      "changed: soul meter redesigned — a pointy-top ring of 12 crystallised-light hexagons, a crown at full soul, shattering shards on tier loss, and a preview glow on the next slot",
-      "changed: hotbar redesigned — corner L-brackets extend on hover and glow when equipped over a warm pearl background; crafting moved to an on-screen interface with an arrow recipe (1 wood + 1 stone)",
-      "added: in-game changelog — press C to open a changelog panel styled like the soul meter; crafting moved off the C key to make room",
-      "added: day/night cycle — a 10-minute cycle with warm golden hours and cool nights; the sky stays a warm dark tone, no more white midday flash",
-      "changed: enemies see and hear — FOV cone and hearing catch arrows, deaths, and footsteps; slimes freeze and panic at deaths, and AI wanders, orbits, and tackles in coordinated groups",
-      "fixed: enemy combat fairness — slimes hit once per entry into range, no double-taps, no teleporting lunges, and contact damage is a real 12",
-      "changed: combat feel — unarmed fists jab on their own; thrusts pierce cleanly and skewer kills toward you; camera shake is directional and weighty; dying enemies slide, leak soul mist, and burst in a gushing explosion",
-      "added: dash and time freeze — dash (Shift) grants brief invincibility with afterimages; time freeze (Space) slows the world while you move in full colour",
-      "added: launch splash screen and void meter — the game opens with a gold-on-dark cinematic splash, and void volume/purity reads as a glow in your soul vessel with a VOID label",
-      "fixed: core combat bugs — stuck movement keys, isometric depth sorting, dead-enemy interference, and time freeze timing all fixed"
+      "added: the soul system — soul is a resource earned from kills and spent on repair; bleed and leak drain you below an equilibrium point, and the game's title is now a literal mechanic",
+      "changed: enemies see and hear the world now — a 150° FOV cone, footstep and attack noise, arrows spotted at full range, and slimes that freeze then panic when they see a death",
+      "added: full day/night cycle — the world runs a 10-minute cycle of deep blue nights, warm golden dawn and dusk, and neutral days",
+      "changed: soul meter redesigned as crystallised light — a pointy-top hexagon rimmed by 12 glowing warm-white hexagons, a crown at full soul, and shattering shards when tiers are lost",
+      "added: focus healing — stand still while holding R to double your heal rate to 16 HP/s; the leak slows and you can finally climb past 91% health",
+      "changed: hotbar rebuilt from the ground up — four animated corner brackets on each slot that extend on hover and glow gold when equipped, over a soft pearl background",
+      "added: dash and time-freeze — Shift dashes you at 5× speed while invincible; Space freezes the world while you keep moving and attacking",
+      "added: changelog readable in-game — press C to open this very log in a soul-meter-styled panel, so every update shows up right in the game"
     ]
   },
   "media": {
