@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EQUILIBRIUM — directing you</title>
+    <!-- Keep the url= target, the #go link, and the noscript link in sync with
+         DEFAULT_VERSION below whenever you bump the declared stable build. -->
     <meta http-equiv="refresh" content="30; url=https://aigsniperyt.github.io/equilibrium-v6/">
     <meta name="theme-color" content="#090705">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23090705'/><text x='50' y='80' text-anchor='middle' font-size='70' fill='%23ffd98a'>&#9674;</text></svg>">
@@ -291,7 +293,12 @@
 
     <script>
         const BASE = "https://aigsniperyt.github.io/equilibrium-v";
-        const DEFAULT_VERSION = 6;
+        // Declared stable build — the only gate on stability. Bump this per
+        // stable release (e.g. "6" now, "7.4" once 7.x is stable). The probe
+        // explores minors WITHIN this build's major only, so an unstable next
+        // major (like the current v7.0) is never auto-linked.
+        const DEFAULT_VERSION = "6";
+        const MINOR_CEILING = 9; // probe equilibrium-v{M}.0 .. .9 plus bare equilibrium-v{M}
         const DURATION = 3000; // ms before stepping through
         const el = {
             go: document.getElementById("go"),
@@ -305,6 +312,16 @@
             const u = BASE + v + "/";
             el.go.href = u;
             el.ver.textContent = "v" + v;
+        }
+
+        function parseVersion(v) {
+            const [maj, min] = String(v).split(".").map(n => parseInt(n, 10));
+            return { maj, min: Number.isFinite(min) ? min : 0 };
+        }
+        // Numeric ordering so "7.4" beats "7.0" beats "6" — bare majors sort as .0.
+        function versionKey(v) {
+            const { maj, min } = parseVersion(v);
+            return maj * 100 + min;
         }
 
         // organic ease-in-out fill, not a ticking clock
@@ -369,12 +386,18 @@
         }
 
         if (window.fetch) {
-            const queue = [];
-            for (let v = DEFAULT_VERSION; v >= 1; v--) {
-                queue.push(fetch(BASE + v + "/", { method: "HEAD", cache: "no-store" }).then(r => (r.ok || r.status === 0) ? v : null).catch(() => null));
-            }
+            // Probe only the declared major's minors (e.g. "7" -> v7, 7.0..7.9).
+            const { maj } = parseVersion(DEFAULT_VERSION);
+            const candidates = [String(maj)];
+            for (let n = 0; n <= MINOR_CEILING; n++) candidates.push(maj + "." + n);
+            const queue = candidates.map(v =>
+                fetch(BASE + v + "/", { method: "HEAD", cache: "no-store" })
+                    .then(r => (r.ok || r.status === 0) ? v : null)
+                    .catch(() => null)
+            );
             Promise.all(queue).then(results => {
-                setTarget(results.reduce((m, v) => v != null ? Math.max(m, v) : m, DEFAULT_VERSION));
+                const found = results.filter(Boolean).sort((a, b) => versionKey(b) - versionKey(a));
+                setTarget(found.length ? found[0] : DEFAULT_VERSION);
                 run();
             }).catch(() => { setTarget(DEFAULT_VERSION); run(); });
         } else {
