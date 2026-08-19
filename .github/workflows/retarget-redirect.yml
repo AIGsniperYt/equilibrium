@@ -1,0 +1,26 @@
+name: retarget redirect
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Stable build to point at (e.g. 7.3)"
+        required: true
+        default: "7.3"
+
+jobs:
+  retarget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: rewrite version targets
+        run: |
+          sed -i "s|equilibrium-v[0-9.]*|equilibrium-v${{ inputs.version }}|g" index.html
+          sed -i "s|DEFAULT_VERSION = \"[^\"]*\"|DEFAULT_VERSION = \"${{ inputs.version }}\"|g" index.html
+
+      - name: commit + push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "redirect: point stable build at v${{ inputs.version }}"
+          git push
